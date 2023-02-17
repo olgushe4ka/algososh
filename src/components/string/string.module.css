@@ -1,0 +1,16 @@
+.stringbox {
+    margin: auto;
+    max-width: 570px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.input {
+    width: 377px;
+    margin-right: 12px;
+}
+
+.inputbox {
+    display: flex;
+}
