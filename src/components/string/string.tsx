@@ -18,24 +18,45 @@ export const StringComponent: React.FC = () => {
   const reverse = (arr: any[]) => {
     const n = Math.floor(arr.length / 2);
 
-    let i = 0;
+    if (arr.length % 2 == 0) {
+      let i = 0;
 
-    changeColor(arr, i, ElementStates.Changing);
+      changeColor(arr, i, ElementStates.Changing);
 
-    const interval = setInterval(() => {
-      const temp = arr[arr.length - i - 1];
-      arr[arr.length - i - 1] = arr[i];
-      arr[i] = temp;
+      const interval = setInterval(() => {
+        const temp = arr[arr.length - i - 1];
+        arr[arr.length - i - 1] = arr[i];
+        arr[i] = temp;
 
-      changeColor(arr, i, ElementStates.Modified);
+        changeColor(arr, i, ElementStates.Modified);
 
-      if (i < n) {
-        i++;
-        changeColor(arr, i, ElementStates.Changing);
-      } else {
-        clearInterval(interval);
-      }
-    }, 1000);
+        if (i < n - 1) {
+          i++;
+          changeColor(arr, i, ElementStates.Changing);
+        } else {
+          clearInterval(interval);
+        }
+      }, 1000);
+    } else {
+      let i = 0;
+
+      changeColor(arr, i, ElementStates.Changing);
+
+      const interval = setInterval(() => {
+        const temp = arr[arr.length - i - 1];
+        arr[arr.length - i - 1] = arr[i];
+        arr[i] = temp;
+
+        changeColor(arr, i, ElementStates.Modified);
+
+        if (i < n) {
+          i++;
+          changeColor(arr, i, ElementStates.Changing);
+        } else {
+          clearInterval(interval);
+        }
+      }, 1000);
+    }
   };
 
   const changeColor = (arr: any[], i: number, color: ElementStates) => {
@@ -50,6 +71,8 @@ export const StringComponent: React.FC = () => {
     const arr = valueInput
       .split("")
       .map((value) => ({ value, color: ElementStates.Default }));
+
+    console.log(arr);
 
     setArrayLetters(arr);
     setValueInput("");
