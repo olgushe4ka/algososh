@@ -22,8 +22,8 @@ export const StringComponent: React.FC = () => {
 
     changeColor(arr, i, ElementStates.Changing);
 
-    let interval = setInterval(() => {
-      let temp = arr[arr.length - i - 1];
+    const interval = setInterval(() => {
+      const temp = arr[arr.length - i - 1];
       arr[arr.length - i - 1] = arr[i];
       arr[i] = temp;
 
@@ -35,37 +35,26 @@ export const StringComponent: React.FC = () => {
       } else {
         clearInterval(interval);
       }
-      console.log(arr);
     }, 1000);
-
-    // setArrayLetters(arr);
   };
 
   const changeColor = (arr: any[], i: number, color: ElementStates) => {
     arr[i].color = color;
     arr[arr.length - i - 1].color = color;
-    let newArr: any[] = arr.concat();
+    const newArr: any[] = arr.concat();
 
     setArrayLetters(newArr);
   };
-
-  // const reverseCallback = useCallback((arr: any[]) => {
-  //   reverse(arr);
-  // }, []);
 
   const clickButton = () => {
     const arr = valueInput
       .split("")
       .map((value) => ({ value, color: ElementStates.Default }));
 
-    // console.log(arr);
-
     setArrayLetters(arr);
     setValueInput("");
 
-    setTimeout(() => reverse(arr), 2000);
-
-    //console.log(arr);
+    setTimeout(() => reverse(arr), 1000);
   };
 
   return (

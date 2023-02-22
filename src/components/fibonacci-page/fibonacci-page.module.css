@@ -16,12 +16,14 @@
 }
 
 .curcles {
+    max-width: 1012px;
     margin: 0;
     padding: 0;
     display: flex;
     margin: auto;
     justify-content: center;
-    margin-top: 140px;
+    margin-top: 100px;
+    flex-wrap: wrap;
 }
 
 .curcle {
