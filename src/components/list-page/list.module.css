@@ -1,0 +1,79 @@
+.stringboxs {
+    display: flex;
+    /* flex-wrap: wrap; */
+    justify-content: flex-start;
+    flex-direction: column;
+    margin: auto;
+    align-items: center;
+}
+
+.stringbox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stringboxSecond {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.input {
+    /* width: 377px; */
+    margin-right: 12px;
+    position: relative;
+
+}
+
+.inputbox {
+    display: flex;
+}
+
+.curcles {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    margin-top: 90px;
+    align-items: start;
+}
+
+.curcle {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style-type: none;
+    padding-left: 10px;
+    position: relative;
+    display: flex;
+    align-items: baseline;
+}
+
+.btnBig {
+    margin-right: 12px;
+    width: 338px;
+
+}
+
+.head {
+    position: absolute;
+    top: -50px;
+    left: 30px;
+}
+
+.btn {
+    margin-right: 12px;
+}
+
+.maxText {
+    position: absolute;
+    left: 12px;
+}
+
+.buttonWidth {
+    width: 100%;
+}
