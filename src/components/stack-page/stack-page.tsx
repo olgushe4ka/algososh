@@ -5,7 +5,6 @@ import { Circle } from "../ui/circle/circle";
 import { Input } from "../ui/input/input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 
-
 import styles from "./stack.module.css";
 
 type TArray = {
@@ -14,26 +13,53 @@ type TArray = {
 };
 
 export const StackPage: React.FC = () => {
-  const [valueInput, setValueInput] = useState<any>("null");
+  const [valueInput, setValueInput] = useState<any>("");
   const [array, setArray] = useState<TArray[]>([]);
-
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValueInput(e.currentTarget.value);
   };
 
   const clickButtonAdd = () => {
-    const arr: any = array.concat;
+    const arr: any = array.concat();
+    arr.push({
+      value: valueInput,
+      color: ElementStates.Modified,
+    });
 
-    const newArr = arr.push({ value: valueInput, color: ElementStates.Default });
+    setArray(arr);
 
-    // const newArr2 =   newArr.map((value: any) => ({ value, color: ElementStates.Default }));
+    setTimeout(() => {
+      console.log(array);
 
-    console.log(newArr);
-    // console.log(newArr2);
+      const newArr: any = arr.concat();
+      const n = newArr.length - 1;
 
-    //setArray(newArr2);
+      newArr[n].color = ElementStates.Default;
+
+      setArray(newArr);
+    }, 500);
+
     setValueInput("");
+  };
+
+  const clickButtonDel = () => {
+    const arr: any = array.concat();
+    const n = arr.length - 1;
+
+    arr[n].color = ElementStates.Modified;
+
+    setArray(arr);
+
+    setTimeout(() => {
+      const newArr = arr.concat();
+      newArr.pop();
+      setArray(newArr);
+    }, 500);
+  };
+
+  const clickButtonClear = () => {
+    setArray([]);
   };
 
   return (
@@ -41,7 +67,7 @@ export const StackPage: React.FC = () => {
       <div className={styles.stringbox}>
         <div className={styles.inputbox}>
           <div className={styles.input}>
-            <Input max={11} onChange={onChange}></Input>
+            <Input max={11} onChange={onChange} value={valueInput}></Input>
           </div>
           <div>
             <Button
@@ -55,16 +81,16 @@ export const StackPage: React.FC = () => {
             <Button
               text="Удалить"
               type="submit"
-              onClick={() => {}}
-              disabled={!!array}
+              onClick={clickButtonDel}
+              disabled={array.length == 0}
             />
           </div>{" "}
           <div>
             <Button
               text="Очистить"
               type="submit"
-              onClick={() => {}}
-              disabled={!!array}
+              onClick={clickButtonClear}
+              disabled={array.length == 0}
             />
           </div>
         </div>
@@ -72,12 +98,13 @@ export const StackPage: React.FC = () => {
       </div>
 
       <ul className={styles.curcles}>
-        {/* {array.map((item, index) => (
+        {array.map((item, index) => (
           <li className={styles.curcle} key={index}>
+            {index == array.length - 1 && <p>top</p>}
             <Circle letter={item.value} state={item.color} />
-            <p>{index - 1}</p>
+            <p>{index}</p>
           </li>
-        ))} */}
+        ))}
       </ul>
     </SolutionLayout>
   );

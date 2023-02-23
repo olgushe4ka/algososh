@@ -54,7 +54,7 @@ export const FibonacciPage: React.FC = () => {
       <div className={styles.stringbox}>
         <div className={styles.inputbox}>
           <div className={styles.input}>
-            <Input max={11} onChange={onChange}></Input>
+            <Input max={11} onChange={onChange} value={valueInput}></Input>
           </div>
           <Button
             text="Рассчитать"

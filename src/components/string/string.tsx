@@ -8,7 +8,7 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import styles from "./string.module.css";
 
 export const StringComponent: React.FC = () => {
-  const [valueInput, setValueInput] = useState("null");
+  const [valueInput, setValueInput] = useState("");
   const [arrayLetters, setArrayLetters] = useState<Array<any>>([]);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -72,8 +72,6 @@ export const StringComponent: React.FC = () => {
       .split("")
       .map((value) => ({ value, color: ElementStates.Default }));
 
-    console.log(arr);
-
     setArrayLetters(arr);
     setValueInput("");
 
@@ -85,7 +83,7 @@ export const StringComponent: React.FC = () => {
       <div className={styles.stringbox}>
         <div className={styles.inputbox}>
           <div className={styles.input}>
-            <Input max={11} onChange={onChange}></Input>
+            <Input max={11} onChange={onChange} value={valueInput}></Input>
           </div>
           <Button
             text="Развернуть"
