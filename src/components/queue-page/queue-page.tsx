@@ -39,6 +39,7 @@ export const QueuePage: React.FC = () => {
         <div className={styles.inputbox}>
           <div className={styles.input}>
             <Input max={11} onChange={onChange} value={valueInput}></Input>
+            <p className={styles.maxText}>Максимум 4 символа</p>
           </div>
           <div>
             <Button
@@ -65,7 +66,6 @@ export const QueuePage: React.FC = () => {
             />
           </div>
         </div>
-        Максимум 4 символа
       </div>
 
       <ul className={styles.curcles}>

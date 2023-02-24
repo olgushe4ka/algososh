@@ -20,10 +20,16 @@ const defaultArray = Array.from({ length: 4 }, () => ({
 
 export const ListPage: React.FC = () => {
   const [valueInput, setValueInput] = useState<any>("");
+  const [indexInput, setIndexInput] = useState<any>("");
+
   const [array, setArray] = useState<TArray[]>(defaultArray);
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeValueInput = (e: ChangeEvent<HTMLInputElement>) => {
     setValueInput(e.currentTarget.value);
+  };
+
+  const onChangeIndexInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setIndexInput(e.currentTarget.value);
   };
 
   const clickButtonAdd = () => {};
@@ -38,7 +44,7 @@ export const ListPage: React.FC = () => {
         <div className={styles.stringbox}>
           <div className={styles.inputbox}>
             <div className={styles.input}>
-              <Input max={11} onChange={onChange} value={valueInput}></Input>
+              <Input placeholder="Введите значение" max={11} onChange={onChangeValueInput} value={valueInput}></Input>
               <p className={styles.maxText}>Максимум 4 символа</p>
             </div>
             <div className={styles.btn}>
@@ -79,7 +85,7 @@ export const ListPage: React.FC = () => {
         <div className={styles.stringboxSecond}>
           <div className={styles.inputbox}>
             <div className={styles.input}>
-              <Input max={11} onChange={onChange} value={valueInput}></Input>
+              <Input placeholder="Введите индекс" max={11} onChange={onChangeIndexInput} value={indexInput}></Input>
             </div>
             <div className={styles.btnBig}>
               <Button

@@ -1,9 +1,8 @@
 .stringbox {
     margin: auto;
-    max-width: 570px;
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: center;
 }
 
 .input {
@@ -36,4 +35,8 @@
 .btnDelete{
     margin-left: 12px;
     margin-right: 80px;
+}
+
+.maxText{
+    position: absolute;
 }
