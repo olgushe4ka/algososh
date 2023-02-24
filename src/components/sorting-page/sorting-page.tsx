@@ -30,30 +30,60 @@ export const SortingPage: React.FC = () => {
 
   const [array, setArray] = useState<Array<TArray>>([]);
 
-  const bubbleSortUP = (arr: TArray[]) => {
-    for (var i = 0; i < arr.length; i++) {
-      for (var j = 0; j < arr.length - i - 1; j++) {
-        if (arr[j].value > arr[j + 1].value) {
-          var temp = arr[j];
-          arr[j] = arr[j + 1];
-          arr[j + 1] = temp;
-        }
-      }
-    }
-    return arr;
-  };
+  const bubbleSort = (direction: boolean) => {
+    let i = 0;
+    let j = 0;
 
-  const bubbleSortDOWN = (arr: TArray[]) => {
-    for (var i = 0; i < arr.length; i++) {
-      for (var j = 0; j < arr.length - i - 1; j++) {
-        if (arr[j].value < arr[j + 1].value) {
-          var temp = arr[j];
-          arr[j] = arr[j + 1];
-          arr[j + 1] = temp;
+    let newArr = array.concat();
+    newArr.map((item) => {item.color = ElementStates.Default})
+
+    const interval = setInterval(function () {
+      newArr = newArr.concat();
+
+      newArr[j].color = ElementStates.Changing;
+      newArr[j + 1].color = ElementStates.Changing;
+
+      setArray(newArr);
+      setTimeout(function () {
+        if (direction == true) {
+          if (newArr[j].value > newArr[j + 1].value) {
+            let temp = newArr[j];
+            newArr[j] = newArr[j + 1];
+            newArr[j + 1] = temp;
+          }
+        } else {
+          if (newArr[j].value < newArr[j + 1].value) {
+            let temp = newArr[j];
+            newArr[j] = newArr[j + 1];
+            newArr[j + 1] = temp;
+          }
         }
-      }
-    }
-    return arr;
+
+        newArr[j].color = ElementStates.Default;
+        setArray(newArr);
+
+        if (j < newArr.length - i - 2) {
+          j++;
+        } else {
+          newArr[j + 1].color = ElementStates.Modified;
+          setArray(newArr);
+
+          i++;
+          j = 0;
+          if (i >= newArr.length) {
+            setTimeout(function () {
+              newArr = newArr.concat();
+              console.log(i, j);
+              newArr[j + 1].color = ElementStates.Modified;
+              newArr[j].color = ElementStates.Modified;
+
+              setArray(newArr);
+              clearInterval(interval);
+            }, 300);
+          }
+        }
+      }, 500);
+    }, 500);
   };
 
   const selectionSortUP = (arr: TArray[]) => {
@@ -69,6 +99,62 @@ export const SortingPage: React.FC = () => {
       arr[min] = temp;
     }
     return arr;
+  };
+
+  const selectionSort = (direction: boolean) => {
+    let i = 0;
+    let j = 0;
+
+    let newArr = array.concat();
+    newArr.map((item) => {item.color = ElementStates.Default})
+
+    const interval = setInterval(function () {
+      newArr = newArr.concat();
+
+      newArr[j].color = ElementStates.Changing;
+      newArr[j + 1].color = ElementStates.Changing;
+
+      setArray(newArr);
+      setTimeout(function () {
+        if (direction == true) {
+          if (newArr[j].value > newArr[j + 1].value) {
+            let temp = newArr[j];
+            newArr[j] = newArr[j + 1];
+            newArr[j + 1] = temp;
+          }
+        } else {
+          if (newArr[j].value < newArr[j + 1].value) {
+            let temp = newArr[j];
+            newArr[j] = newArr[j + 1];
+            newArr[j + 1] = temp;
+          }
+        }
+
+        newArr[j].color = ElementStates.Default;
+        setArray(newArr);
+
+        if (j < newArr.length - i - 2) {
+          j++;
+        } else {
+          newArr[j + 1].color = ElementStates.Modified;
+          setArray(newArr);
+
+          i++;
+          j = 0;
+          if (i >= newArr.length) {
+            setTimeout(function () {
+              newArr = newArr.concat();
+              console.log(i, j);
+              newArr[j + 1].color = ElementStates.Modified;
+              newArr[j].color = ElementStates.Modified;
+
+              setArray(newArr);
+              clearInterval(interval);
+            }, 300);
+          }
+        }
+      }, 500);
+    }, 500);
   };
 
   const selectionSortDOWN = (arr: TArray[]) => {
@@ -88,9 +174,7 @@ export const SortingPage: React.FC = () => {
 
   const clickButtonUp = () => {
     if (methodSorting == "bubble") {
-      const newArr = [...array];
-      bubbleSortUP(newArr);
-      setArray(newArr);
+      bubbleSort(true);
     } else {
       const newArr = [...array];
       selectionSortUP(newArr);
@@ -100,9 +184,7 @@ export const SortingPage: React.FC = () => {
 
   const clickButtonDown = () => {
     if (methodSorting == "bubble") {
-      const newArr = [...array];
-      bubbleSortDOWN(newArr);
-      setArray(newArr);
+      bubbleSort(false);
     } else {
       const newArr = [...array];
       selectionSortDOWN(newArr);
