@@ -1,37 +1,96 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useMemo, useState } from "react";
 import { ElementStates } from "../../types/element-states";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { Input } from "../ui/input/input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
+import Queue from "./queue-class";
 
 import styles from "./queue.module.css";
 
 type TArray = {
-  value: string;
+  value: any;
   color: ElementStates;
+  tail?: string;
+  head?: string;
 };
 
-const emptyArr = Array.from({ length: 7 }, () => ({
+const initialArr = Array.from({ length: 7 }, () => ({
   value: "",
   color: ElementStates.Default,
 }));
 
 export const QueuePage: React.FC = () => {
+  const queue = useMemo(() => new Queue<string>(), []); 
+
   const [valueInput, setValueInput] = useState<any>("");
-  const [array, setArray] = useState<TArray[]>(emptyArr);
+  const [array, setArray] = useState<TArray[]>(initialArr);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValueInput(e.currentTarget.value);
   };
 
-  const clickButtonAdd = () => {};
+  const clickButtonAdd = () => {
+    setValueInput("");
+    const newArray = [...array];
 
-  const clickButtonDel = () => {};
+    queue.enqueue(valueInput);
+
+    const head = queue.getHead();
+    const tail = queue.getTail();
+
+    newArray[head.index].value = head.value;
+    newArray[head.index].head = "head";
+
+    if (tail.index > 0) array[tail.index - 1].tail = "";
+
+    newArray[tail.index].value = tail.value;
+    newArray[tail.index].tail = "tail";
+    newArray[tail.index].color = ElementStates.Changing;
+    setArray(newArray);
+
+    setTimeout(() => {
+      const array = [...newArray];
+      array[tail.index].color = ElementStates.Default;
+      setArray(array);
+    }, 500);
+  };
+
+  const clickButtonDel = () => {
+    const newArray = [...array];
+    const head = queue.getHead();
+    const tail = queue.getTail();
+    if (head.index === tail.index) {
+      clickButtonClear();
+    } else {
+      queue.dequeue();
+      const head = queue.getHead();
+      newArray[head.index - 1].color = ElementStates.Changing;
+
+      setArray(newArray);
+
+      setTimeout(() => {
+        const array = [...newArray];
+
+        array[head.index - 1].color = ElementStates.Default;
+        if (head.index > 0) {
+          array[head.index - 1].head = "";
+          array[head.index - 1].value = "";
+        }
+        array[head.index].value = head.value;
+        array[head.index].head = "head";
+        setArray(array);
+      }, 500);
+    }
+  };
 
   const clickButtonClear = () => {
-    setArray(emptyArr);
+    queue.clear();
+    setArray([...initialArr]);
   };
+
+  console.log(array);
+  console.log(queue);
 
   return (
     <SolutionLayout title="Очередь">
@@ -46,7 +105,7 @@ export const QueuePage: React.FC = () => {
               text="Добавить"
               type="submit"
               onClick={clickButtonAdd}
-              disabled={valueInput === "" || valueInput.length > 4}
+              disabled={array[6].tail == "tail"}
             />
           </div>{" "}
           <div className={styles.btnDelete}>
@@ -56,7 +115,7 @@ export const QueuePage: React.FC = () => {
               onClick={clickButtonDel}
               disabled={array.length == 0}
             />
-          </div>{" "}
+          </div>
           <div>
             <Button
               text="Очистить"
@@ -71,11 +130,11 @@ export const QueuePage: React.FC = () => {
       <ul className={styles.curcles}>
         {array.map((item, index) => (
           <li className={styles.curcle} key={index}>
-            {index == array.length - 1 && <p className={styles.head}>head</p>}
+            {item.head === "head" && <p className={styles.head}>head</p>}
             <Circle letter={item.value} state={item.color} />
 
             <p>{index}</p>
-            {index == array.length - 1 && <p>tail</p>}
+            {item.tail === "tail" && <p>tail</p>}
           </li>
         ))}
       </ul>
