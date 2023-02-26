@@ -1,16 +1,19 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useMemo, useState } from "react";
 import { ElementStates } from "../../types/element-states";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { ArrowIcon } from "../ui/icons/arrow-icon";
 import { Input } from "../ui/input/input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
+import List from "./list-class";
 
 import styles from "./list.module.css";
 
 type TArray = {
-  value: string;
+  value: any;
   color: ElementStates;
+  tail?: string;
+  head?: string;
 };
 
 const defaultArray = Array.from({ length: 4 }, () => ({
@@ -19,6 +22,9 @@ const defaultArray = Array.from({ length: 4 }, () => ({
 }));
 
 export const ListPage: React.FC = () => {
+
+  const list = useMemo(() => new List<string>(), []);
+
   const [valueInput, setValueInput] = useState<any>("");
   const [indexInput, setIndexInput] = useState<any>("");
 
@@ -32,11 +38,43 @@ export const ListPage: React.FC = () => {
     setIndexInput(e.currentTarget.value);
   };
 
-  const clickButtonAdd = () => {};
+  const clickButtonAddToHead = () => {
+    setValueInput("");
 
-  const clickButtonDel = () => {};
+    const newArray = array.concat();
 
-  const clickButtonClear = () => {};
+    list.addToHead(valueInput);
+
+    const head = list.getHead();
+    const tail = list.getTail();
+
+    newArray[head.index].value = head.value;
+    newArray[head.index].head = "head";
+
+    if (tail.index > 0) {
+      newArray[tail.index - 1].tail = "";
+    }
+
+    newArray[tail.index].value = tail.value;
+    newArray[tail.index].tail = "tail";
+    newArray[tail.index].color = ElementStates.Changing;
+    setArray(newArray);
+
+    setTimeout(() => {
+      const array = [...newArray];
+      array[tail.index].color = ElementStates.Default;
+      setArray(array);
+    }, 500);
+
+  };
+  const clickButtonAddToTail = () => {};
+
+  const clickButtonDelHead = () => {};
+  const clickButtonDeltail = () => {};
+
+  const clickButtonAddByIndex = () => {};
+  
+  const clickButtonDelByIndex = () => {};
 
   return (
     <SolutionLayout title="Связный список">
@@ -56,7 +94,7 @@ export const ListPage: React.FC = () => {
               <Button
                 text="Добавить в head"
                 type="submit"
-                onClick={clickButtonAdd}
+                onClick={clickButtonAddToHead}
                 disabled={valueInput.length > 4}
               />
             </div>
@@ -64,7 +102,7 @@ export const ListPage: React.FC = () => {
               <Button
                 text="Добавить в tail"
                 type="submit"
-                onClick={clickButtonDel}
+                onClick={clickButtonAddToTail}
                 disabled={valueInput.length > 4}
               />
             </div>
@@ -72,7 +110,7 @@ export const ListPage: React.FC = () => {
               <Button
                 text="Удалить из head"
                 type="submit"
-                onClick={clickButtonAdd}
+                onClick={clickButtonDelHead}
                 disabled={array.length == 0}
               />
             </div>
@@ -80,7 +118,7 @@ export const ListPage: React.FC = () => {
               <Button
                 text="Удалить из tail"
                 type="submit"
-                onClick={clickButtonDel}
+                onClick={clickButtonDeltail}
                 disabled={array.length == 0}
               />
             </div>{" "}
@@ -101,7 +139,7 @@ export const ListPage: React.FC = () => {
               <Button
                 text="Добавить по индексу"
                 type="submit"
-                onClick={clickButtonAdd}
+                onClick={clickButtonAddByIndex}
                 disabled={valueInput.length > 4}
                 extraClass={styles.buttonWidth}
               />
@@ -110,7 +148,7 @@ export const ListPage: React.FC = () => {
               <Button
                 text="Удалить по индексу"
                 type="submit"
-                onClick={clickButtonAdd}
+                onClick={clickButtonDelByIndex}
                 disabled={array.length == 0}
                 extraClass={styles.buttonWidth}
               />

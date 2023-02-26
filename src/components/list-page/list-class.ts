@@ -1,10 +1,10 @@
 interface IList<T> {
-  addToHead: () => void;
-  addToTail: () => void;
+  addToHead: (value: T) => void;
+  addToTail: (value: T) => void;
   delFromHead: () => void;
   delFromTail: () => void;
-  addByIndex: () => void;
-  delByIndex: () => void;
+  addByIndex: (item: T, value: number) => void;
+  delByIndex: (value: number) => void;
   getHead: () => { value: T | null; index: number };
   getTail: () => { value: T | null; index: number };
   clear: () => void;
@@ -20,14 +20,37 @@ export default class List<T> implements IList<T> {
     this.container = Array();
   }
 
-  addToHead() {}
-  addToTail() {}
+  addToHead(item: T) {
+    this.container[this.head] = item;
+    this.head --;
+    this.length++;
+  }
+  addToTail(item: T) {
+    this.container[this.head] = item;
+    this.tail --;
+    this.length++;
+  }
 
-  delFromHead() {}
-  delFromTail() {}
+  delFromHead() {
+    this.container[this.head] = null;
+    this.head++;
+    this.length--;
+  }
+  delFromTail() {
+    this.container[this.tail] = null;
+    this.tail--;
+    this.length--;
+  }
 
-  addByIndex() {}
-  delByIndex() {}
+  addByIndex(item: T, value: number) {
+    this.container[value] = item;
+    this.length++;
+  }
+
+  delByIndex(value: number) {
+    this.container[value] = null;
+    this.length--;
+  }
 
   // enqueue(item: T) {
   //   this.container[this.tail] = item;
