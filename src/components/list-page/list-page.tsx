@@ -44,7 +44,12 @@ export const ListPage: React.FC = () => {
         <div className={styles.stringbox}>
           <div className={styles.inputbox}>
             <div className={styles.input}>
-              <Input placeholder="Введите значение" max={11} onChange={onChangeValueInput} value={valueInput}></Input>
+              <Input
+                placeholder="Введите значение"
+                max={11}
+                onChange={onChangeValueInput}
+                value={valueInput}
+              ></Input>
               <p className={styles.maxText}>Максимум 4 символа</p>
             </div>
             <div className={styles.btn}>
@@ -85,7 +90,12 @@ export const ListPage: React.FC = () => {
         <div className={styles.stringboxSecond}>
           <div className={styles.inputbox}>
             <div className={styles.input}>
-              <Input placeholder="Введите индекс" max={11} onChange={onChangeIndexInput} value={indexInput}></Input>
+              <Input
+                placeholder="Введите индекс"
+                max={11}
+                onChange={onChangeIndexInput}
+                value={indexInput}
+              ></Input>
             </div>
             <div className={styles.btnBig}>
               <Button
@@ -97,7 +107,7 @@ export const ListPage: React.FC = () => {
               />
             </div>
             <div className={styles.btnBig}>
-              <Button 
+              <Button
                 text="Удалить по индексу"
                 type="submit"
                 onClick={clickButtonAdd}
@@ -113,11 +123,26 @@ export const ListPage: React.FC = () => {
         {array.map((item, index) => (
           <li className={styles.curcle} key={index}>
             <div>
+              {index == array.length - 1 && (
+                <Circle
+                  state={ElementStates.Changing}
+                  letter={item.value}
+                  isSmall={true}
+                  extraClass={styles.upCircle}
+                />
+              )}
               {index == array.length - 1 && <p className={styles.head}>head</p>}
               <Circle letter={item.value} state={item.color} />
-
               <p>{index}</p>
-              {index == array.length - 1 && <p>tail</p>}
+              {index == array.length - 1 && <p className={styles.tail}>tail</p>}
+              {index == array.length - 1 && (
+                <Circle
+                  state={ElementStates.Changing}
+                  letter={item.value}
+                  isSmall={true}
+                  extraClass={styles.downCircle}
+                />
+              )}
             </div>
             {index !== array.length - 1 && <ArrowIcon />}
           </li>

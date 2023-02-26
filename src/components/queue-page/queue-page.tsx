@@ -20,14 +20,11 @@ const initialArr = Array.from({ length: 7 }, () => ({
   color: ElementStates.Default,
 }));
 
-
 export const QueuePage: React.FC = () => {
   const queue = useMemo(() => new Queue<string>(), []);
- 
 
   const [valueInput, setValueInput] = useState<any>("");
   const [array, setArray] = useState<TArray[]>(initialArr);
-
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValueInput(e.currentTarget.value);
@@ -93,13 +90,13 @@ export const QueuePage: React.FC = () => {
   const clickButtonClear = () => {
     queue.clear();
 
-    setArray(Array.from({ length: 7 }, () => ({
-      value: "",
-      color: ElementStates.Default,
-    })));
-
+    setArray(
+      Array.from({ length: 7 }, () => ({
+        value: "",
+        color: ElementStates.Default,
+      }))
+    );
   };
-
 
   return (
     <SolutionLayout title="Очередь">
