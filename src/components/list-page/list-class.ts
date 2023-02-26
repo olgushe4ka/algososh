@@ -5,12 +5,12 @@ interface IList<T> {
   delFromTail: () => void;
   addByIndex: (item: T, value: number) => void;
   delByIndex: (value: number) => void;
-  getHead: () => { value: T | null; index: number };
-  getTail: () => { value: T | null; index: number };
+  // getHead: () => { value: T | null; index: number };
+  // getTail: () => { value: T | null; index: number };
   clear: () => void;
 }
 
-export default class List<T> implements IList<T> {
+export default class LinkedList<T> implements IList<T> {
   container: (T | null)[] = [];
   head: number = 0;
   tail: number = 0;
@@ -22,7 +22,7 @@ export default class List<T> implements IList<T> {
 
   addToHead(item: T) {
     this.container[this.head] = item;
-    this.head --;
+    this.head ++;
     this.length++;
   }
   addToTail(item: T) {
@@ -70,11 +70,11 @@ export default class List<T> implements IList<T> {
     this.length = 0;
   };
 
-  getHead = (): { value: T | null; index: number } => {
-    return { value: this.container[this.head], index: this.head };
-  };
+  // getHead = (): { value: T | null; index: number } => {
+  //   return { value: this.container[this.head], index: this.head };
+  // };
 
-  getTail = (): { value: T | null; index: number } => {
-    return { value: this.container[this.tail - 1], index: this.tail - 1 };
-  };
+  // getTail = (): { value: T | null; index: number } => {
+  //   return { value: this.container[this.tail - 1], index: this.tail - 1 };
+  // };
 }

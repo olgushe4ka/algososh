@@ -5,7 +5,7 @@ import { Circle } from "../ui/circle/circle";
 import { ArrowIcon } from "../ui/icons/arrow-icon";
 import { Input } from "../ui/input/input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
-import List from "./list-class";
+import LinkedList from "./list-class";
 
 import styles from "./list.module.css";
 
@@ -16,17 +16,28 @@ type TArray = {
   head?: string;
 };
 
+type TDownCircle = {
+  value: any;
+  index: number | null;
+};
+
 const defaultArray = Array.from({ length: 4 }, () => ({
   value: "1",
   color: ElementStates.Default,
 }));
 
 export const ListPage: React.FC = () => {
-
-  const list = useMemo(() => new List<string>(), []);
+  const list = useMemo(() => new LinkedList<string>(), []);
 
   const [valueInput, setValueInput] = useState<any>("");
   const [indexInput, setIndexInput] = useState<any>("");
+
+  // const [numberChainging, setNumberChainging] = useState<boolean>(false);
+  const [indexUpCircle, setIndexUpCircle] = useState<number | null>(null);
+  const [indexDownCircle, setIndexDownCircle] = useState<TDownCircle>({
+    value: "",
+    index: null,
+  });
 
   const [array, setArray] = useState<TArray[]>(defaultArray);
 
@@ -38,42 +49,72 @@ export const ListPage: React.FC = () => {
     setIndexInput(e.currentTarget.value);
   };
 
+  console.log(array);
+  console.log(list.container);
+
   const clickButtonAddToHead = () => {
     setValueInput("");
+
+    setIndexUpCircle(0);
 
     const newArray = array.concat();
 
     list.addToHead(valueInput);
 
-    const head = list.getHead();
-    const tail = list.getTail();
+    const newElement = {
+      value: valueInput,
+      color: ElementStates.Changing,
+    };
 
-    newArray[head.index].value = head.value;
-    newArray[head.index].head = "head";
+    newArray.unshift(newElement);
 
-    if (tail.index > 0) {
-      newArray[tail.index - 1].tail = "";
-    }
-
-    newArray[tail.index].value = tail.value;
-    newArray[tail.index].tail = "tail";
-    newArray[tail.index].color = ElementStates.Changing;
     setArray(newArray);
 
     setTimeout(() => {
+      setIndexUpCircle(null);
+
       const array = [...newArray];
-      array[tail.index].color = ElementStates.Default;
+      array[0].color = ElementStates.Default;
       setArray(array);
     }, 500);
-
   };
+
   const clickButtonAddToTail = () => {};
 
-  const clickButtonDelHead = () => {};
-  const clickButtonDeltail = () => {};
+  const clickButtonDelHead = () => {
+    const newArray = array.concat();
+    //  setValueInput("");
+    const downCircle = {
+      value: newArray[0].value,
+      index: 0,
+    };
+
+    setIndexDownCircle(downCircle);
+
+    list.delFromHead();
+
+    newArray[0].value = "";
+    newArray[0].color = ElementStates.Changing;
+
+    setArray(newArray);
+
+    setTimeout(() => {
+      const downCircle = {
+        value: "",
+        index: null,
+      };
+
+      setIndexDownCircle(downCircle);
+      const array = [...newArray];
+      array.shift();
+
+      setArray(array);
+    }, 500);
+  };
+  const clickButtonDelTail = () => {};
 
   const clickButtonAddByIndex = () => {};
-  
+
   const clickButtonDelByIndex = () => {};
 
   return (
@@ -118,7 +159,7 @@ export const ListPage: React.FC = () => {
               <Button
                 text="Удалить из tail"
                 type="submit"
-                onClick={clickButtonDeltail}
+                onClick={clickButtonDelTail}
                 disabled={array.length == 0}
               />
             </div>{" "}
@@ -161,7 +202,7 @@ export const ListPage: React.FC = () => {
         {array.map((item, index) => (
           <li className={styles.curcle} key={index}>
             <div>
-              {index == array.length - 1 && (
+              {index == indexUpCircle && (
                 <Circle
                   state={ElementStates.Changing}
                   letter={item.value}
@@ -169,14 +210,15 @@ export const ListPage: React.FC = () => {
                   extraClass={styles.upCircle}
                 />
               )}
-              {index == array.length - 1 && <p className={styles.head}>head</p>}
+              {index == 0 && <p className={styles.head}>head</p>}
               <Circle letter={item.value} state={item.color} />
               <p>{index}</p>
               {index == array.length - 1 && <p className={styles.tail}>tail</p>}
-              {index == array.length - 1 && (
+              {index == indexDownCircle.index && (
                 <Circle
                   state={ElementStates.Changing}
-                  letter={item.value}
+                  //  letter={item.value}
+                  letter={indexDownCircle.value}
                   isSmall={true}
                   extraClass={styles.downCircle}
                 />
