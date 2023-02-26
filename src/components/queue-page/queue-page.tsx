@@ -20,11 +20,14 @@ const initialArr = Array.from({ length: 7 }, () => ({
   color: ElementStates.Default,
 }));
 
+
 export const QueuePage: React.FC = () => {
-  const queue = useMemo(() => new Queue<string>(), []); 
+  const queue = useMemo(() => new Queue<string>(), []);
+ 
 
   const [valueInput, setValueInput] = useState<any>("");
   const [array, setArray] = useState<TArray[]>(initialArr);
+
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValueInput(e.currentTarget.value);
@@ -32,7 +35,8 @@ export const QueuePage: React.FC = () => {
 
   const clickButtonAdd = () => {
     setValueInput("");
-    const newArray = [...array];
+
+    const newArray = array.concat();
 
     queue.enqueue(valueInput);
 
@@ -42,7 +46,9 @@ export const QueuePage: React.FC = () => {
     newArray[head.index].value = head.value;
     newArray[head.index].head = "head";
 
-    if (tail.index > 0) array[tail.index - 1].tail = "";
+    if (tail.index > 0) {
+      newArray[tail.index - 1].tail = "";
+    }
 
     newArray[tail.index].value = tail.value;
     newArray[tail.index].tail = "tail";
@@ -86,11 +92,14 @@ export const QueuePage: React.FC = () => {
 
   const clickButtonClear = () => {
     queue.clear();
-    setArray([...initialArr]);
+
+    setArray(Array.from({ length: 7 }, () => ({
+      value: "",
+      color: ElementStates.Default,
+    })));
+
   };
 
-  console.log(array);
-  console.log(queue);
 
   return (
     <SolutionLayout title="Очередь">
@@ -105,7 +114,11 @@ export const QueuePage: React.FC = () => {
               text="Добавить"
               type="submit"
               onClick={clickButtonAdd}
-              disabled={array[6].tail == "tail"}
+              disabled={
+                valueInput == "" ||
+                array[6].tail == "tail" ||
+                valueInput.length > 4
+              }
             />
           </div>{" "}
           <div className={styles.btnDelete}>
