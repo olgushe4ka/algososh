@@ -26,7 +26,7 @@ export default class LinkedList<T> implements IList<T> {
     this.length++;
   }
   addToTail(item: T) {
-    this.container[this.head] = item;
+    this.container[this.tail] = item;
     this.tail --;
     this.length++;
   }

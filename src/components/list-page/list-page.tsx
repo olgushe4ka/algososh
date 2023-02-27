@@ -21,10 +21,25 @@ type TDownCircle = {
   index: number | null;
 };
 
-const defaultArray = Array.from({ length: 4 }, () => ({
-  value: "1",
-  color: ElementStates.Default,
-}));
+
+const defaultArray = [
+  {
+    value: "1",
+    color: ElementStates.Default,
+  },
+  {
+    value: "13",
+    color: ElementStates.Default,
+  },
+  {
+    value: "4",
+    color: ElementStates.Default,
+  },
+  {
+    value: "18",
+    color: ElementStates.Default,
+  }
+]
 
 export const ListPage: React.FC = () => {
   const list = useMemo(() => new LinkedList<string>(), []);
@@ -32,7 +47,6 @@ export const ListPage: React.FC = () => {
   const [valueInput, setValueInput] = useState<any>("");
   const [indexInput, setIndexInput] = useState<any>("");
 
-  // const [numberChainging, setNumberChainging] = useState<boolean>(false);
   const [indexUpCircle, setIndexUpCircle] = useState<number | null>(null);
   const [indexDownCircle, setIndexDownCircle] = useState<TDownCircle>({
     value: "",
@@ -49,8 +63,6 @@ export const ListPage: React.FC = () => {
     setIndexInput(e.currentTarget.value);
   };
 
-  console.log(array);
-  console.log(list.container);
 
   const clickButtonAddToHead = () => {
     setValueInput("");
@@ -79,11 +91,35 @@ export const ListPage: React.FC = () => {
     }, 500);
   };
 
-  const clickButtonAddToTail = () => {};
+  const clickButtonAddToTail = () => {
+    setValueInput("");
+    const newArray = array.concat();
+
+    setIndexUpCircle(array.length);
+
+    list.addToTail(valueInput);
+
+    const newElement = {
+      value: valueInput,
+      color: ElementStates.Changing,
+    };
+
+    newArray.push(newElement);
+
+    setArray(newArray);
+
+    setTimeout(() => {
+      setIndexUpCircle(null);
+
+      const array = [...newArray];
+
+      array[array.length - 1].color = ElementStates.Default;
+      setArray(array);
+    }, 500);
+  };
 
   const clickButtonDelHead = () => {
     const newArray = array.concat();
-    //  setValueInput("");
     const downCircle = {
       value: newArray[0].value,
       index: 0,
@@ -111,11 +147,98 @@ export const ListPage: React.FC = () => {
       setArray(array);
     }, 500);
   };
-  const clickButtonDelTail = () => {};
 
-  const clickButtonAddByIndex = () => {};
+  const clickButtonDelTail = () => {
+    const newArray = array.concat();
 
-  const clickButtonDelByIndex = () => {};
+    const downCircle = {
+      value: newArray[newArray.length - 1].value,
+      index: newArray.length - 1,
+    };
+
+    setIndexDownCircle(downCircle);
+
+    list.delFromTail();
+
+    newArray[newArray.length - 1].value = "";
+    newArray[newArray.length - 1].color = ElementStates.Changing;
+
+    setArray(newArray);
+
+    setTimeout(() => {
+      const downCircle = {
+        value: "",
+        index: null,
+      };
+
+      setIndexDownCircle(downCircle);
+      const array = [...newArray];
+      array.pop();
+
+      setArray(array);
+    }, 500);
+  };
+
+  const clickButtonAddByIndex = () => {
+    const newArray = array.concat();
+
+    setIndexUpCircle(indexInput);
+
+    list.addByIndex(indexInput, valueInput);
+
+    const newElement = {
+      value: valueInput,
+      color: ElementStates.Changing,
+    };
+
+    newArray.splice(indexInput, 0, newElement);
+
+    setArray(newArray);
+
+    setTimeout(() => {
+      setIndexUpCircle(null);
+
+      const array = [...newArray];
+      array[indexInput].color = ElementStates.Default;
+      setArray(array);
+    }, 500);
+    setValueInput("");
+    setIndexInput("");
+  };
+
+  const clickButtonDelByIndex = () => {
+    const newArray = array.concat();
+
+    const downCircle = {
+      value: newArray[indexInput].value,
+      index: indexInput,
+    };
+
+    setIndexDownCircle(downCircle);
+
+    list.delByIndex(indexInput);
+
+    newArray[indexInput].value = "";
+    newArray[indexInput].color = ElementStates.Changing;
+
+    setArray(newArray);
+
+    setTimeout(() => {
+      const downCircle = {
+        value: "",
+        index: null,
+      };
+
+      setIndexDownCircle(downCircle);
+      const array = [...newArray];
+
+      array.splice(indexInput, 1);
+
+      setArray(array);
+    }, 500);
+
+    setIndexInput("");
+  };
 
   return (
     <SolutionLayout title="Связный список">
@@ -136,7 +259,7 @@ export const ListPage: React.FC = () => {
                 text="Добавить в head"
                 type="submit"
                 onClick={clickButtonAddToHead}
-                disabled={valueInput.length > 4}
+                disabled={valueInput.length > 4 || valueInput == ""}
               />
             </div>
             <div className={styles.btn}>
@@ -144,7 +267,7 @@ export const ListPage: React.FC = () => {
                 text="Добавить в tail"
                 type="submit"
                 onClick={clickButtonAddToTail}
-                disabled={valueInput.length > 4}
+                disabled={valueInput.length > 4 || valueInput == ""}
               />
             </div>
             <div className={styles.btn}>
@@ -174,6 +297,7 @@ export const ListPage: React.FC = () => {
                 max={11}
                 onChange={onChangeIndexInput}
                 value={indexInput}
+                type={"number"}
               ></Input>
             </div>
             <div className={styles.btnBig}>
@@ -181,7 +305,11 @@ export const ListPage: React.FC = () => {
                 text="Добавить по индексу"
                 type="submit"
                 onClick={clickButtonAddByIndex}
-                disabled={valueInput.length > 4}
+                disabled={
+                  indexInput > array.length ||
+                  valueInput == "" ||
+                  indexInput == ""
+                }
                 extraClass={styles.buttonWidth}
               />
             </div>
@@ -190,7 +318,7 @@ export const ListPage: React.FC = () => {
                 text="Удалить по индексу"
                 type="submit"
                 onClick={clickButtonDelByIndex}
-                disabled={array.length == 0}
+                disabled={indexInput == "" || indexInput > array.length-1}
                 extraClass={styles.buttonWidth}
               />
             </div>
@@ -217,7 +345,6 @@ export const ListPage: React.FC = () => {
               {index == indexDownCircle.index && (
                 <Circle
                   state={ElementStates.Changing}
-                  //  letter={item.value}
                   letter={indexDownCircle.value}
                   isSmall={true}
                   extraClass={styles.downCircle}
