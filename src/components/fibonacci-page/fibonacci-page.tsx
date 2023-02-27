@@ -6,18 +6,13 @@ import { Input } from "../ui/input/input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 
 import styles from "./fibonacci-page.module.css";
+import { fibonacciNumbers, TArray } from "./utils";
 
-const fibonacciNumbers = (n: number): number[] => {
-  let arr: number[] = [1, 1];
-  for (let i = 2; i < n + 1; i++) {
-    arr.push(arr[i - 2] + arr[i - 1]);
-  }
-  return arr;
-};
+
 
 export const FibonacciPage: React.FC = () => {
   const [valueInput, setValueInput] = useState<number | string>("");
-  const [arrayFibonacci, setArrayFibonacci] = useState<Array<any>>([]);
+  const [arrayFibonacci, setArrayFibonacci] = useState<Array<number>>([]);
 
   const changeArrayFibonacci = (number: number) => {
     let arr = fibonacciNumbers(number);

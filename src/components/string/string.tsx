@@ -6,16 +6,17 @@ import { Input } from "../ui/input/input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 
 import styles from "./string.module.css";
+import { TArray } from "./utils";
 
 export const StringComponent: React.FC = () => {
   const [valueInput, setValueInput] = useState("");
-  const [arrayLetters, setArrayLetters] = useState<Array<any>>([]);
+  const [arrayLetters, setArrayLetters] = useState<Array<TArray>>([]);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValueInput(e.currentTarget.value);
   };
 
-  const reverse = (arr: any[]) => {
+  const reverse = (arr: TArray[]) => {
     const n = Math.floor(arr.length / 2);
 
     if (arr.length % 2 == 0) {
@@ -59,10 +60,10 @@ export const StringComponent: React.FC = () => {
     }
   };
 
-  const changeColor = (arr: any[], i: number, color: ElementStates) => {
+  const changeColor = (arr: TArray[], i: number, color: ElementStates) => {
     arr[i].color = color;
     arr[arr.length - i - 1].color = color;
-    const newArr: any[] = arr.concat();
+    const newArr: TArray[] = arr.concat();
 
     setArrayLetters(newArr);
   };
@@ -77,6 +78,7 @@ export const StringComponent: React.FC = () => {
 
     setTimeout(() => reverse(arr), 1000);
   };
+  
 
   return (
     <SolutionLayout title="Строка">

@@ -6,14 +6,11 @@ import { Input } from "../ui/input/input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 
 import styles from "./stack.module.css";
+import { TArray } from "./utils";
 
-type TArray = {
-  value: string;
-  color: ElementStates;
-};
 
 export const StackPage: React.FC = () => {
-  const [valueInput, setValueInput] = useState<any>("");
+  const [valueInput, setValueInput] = useState<string>("");
   const [array, setArray] = useState<TArray[]>([]);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -21,7 +18,7 @@ export const StackPage: React.FC = () => {
   };
 
   const clickButtonAdd = () => {
-    const arr: any = array.concat();
+    const arr = array.concat();
     arr.push({
       value: valueInput,
       color: ElementStates.Modified,
@@ -32,7 +29,7 @@ export const StackPage: React.FC = () => {
     setTimeout(() => {
       console.log(array);
 
-      const newArr: any = arr.concat();
+      const newArr = arr.concat();
       const n = newArr.length - 1;
 
       newArr[n].color = ElementStates.Default;
@@ -44,7 +41,7 @@ export const StackPage: React.FC = () => {
   };
 
   const clickButtonDel = () => {
-    const arr: any = array.concat();
+    const arr = array.concat();
     const n = arr.length - 1;
 
     arr[n].color = ElementStates.Modified;

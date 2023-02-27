@@ -7,23 +7,12 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import Queue from "./queue-class";
 
 import styles from "./queue.module.css";
-
-type TArray = {
-  value: any;
-  color: ElementStates;
-  tail?: string;
-  head?: string;
-};
-
-const initialArr = Array.from({ length: 7 }, () => ({
-  value: "",
-  color: ElementStates.Default,
-}));
+import { initialArr, TArray } from "./utils";
 
 export const QueuePage: React.FC = () => {
   const queue = useMemo(() => new Queue<string>(), []);
 
-  const [valueInput, setValueInput] = useState<any>("");
+  const [valueInput, setValueInput] = useState<string>("");
   const [array, setArray] = useState<TArray[]>(initialArr);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {

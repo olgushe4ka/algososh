@@ -8,38 +8,8 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import LinkedList from "./list-class";
 
 import styles from "./list.module.css";
+import { TDownCircle, TArray, defaultArray } from "./utils";
 
-type TArray = {
-  value: any;
-  color: ElementStates;
-  tail?: string;
-  head?: string;
-};
-
-type TDownCircle = {
-  value: any;
-  index: number | null;
-};
-
-
-const defaultArray = [
-  {
-    value: "1",
-    color: ElementStates.Default,
-  },
-  {
-    value: "13",
-    color: ElementStates.Default,
-  },
-  {
-    value: "4",
-    color: ElementStates.Default,
-  },
-  {
-    value: "18",
-    color: ElementStates.Default,
-  }
-]
 
 export const ListPage: React.FC = () => {
   const list = useMemo(() => new LinkedList<string>(), []);

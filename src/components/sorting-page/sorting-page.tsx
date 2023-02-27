@@ -7,28 +7,16 @@ import { RadioInput } from "../ui/radio-input/radio-input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 
 import styles from "./sorting.module.css";
-
-type TArray = {
-  value: number;
-  color: ElementStates;
-};
-
-const randomArr = () => {
-  const arr = [];
-  const length = Math.floor(Math.random() * 13) + 3;
-  for (let i = 0; i < length; i++) {
-    arr.push({
-      value: Math.round(Math.random() * 100),
-      color: ElementStates.Default,
-    });
-  }
-  return arr;
-};
+import { randomArr, TArray } from "./utils";
 
 export const SortingPage: React.FC = () => {
   const [methodSorting, setMethodSorting] = useState("selection");
 
-  const [array, setArray] = useState<Array<TArray>>([]);
+  const [array, setArray] = useState<Array<TArray>>(randomArr);
+
+  const [btnClicked, setBtnClicked] = useState<boolean>(false);
+
+  console.log(btnClicked);
 
   const bubbleSort = (direction: boolean) => {
     let i = 0;
@@ -85,9 +73,14 @@ export const SortingPage: React.FC = () => {
         }
       }, 500);
     }, 500);
+    setBtnClicked(false);
+    if (btnClicked) {
+      clearInterval(interval);
+    }
   };
 
   const selectionSort = (direction: boolean) => {
+
     let i = 0;
     let j = i + 1;
 
@@ -138,9 +131,14 @@ export const SortingPage: React.FC = () => {
       }
       setArray(newArr);
     }, 500);
+    setBtnClicked(false);
+    if (btnClicked) {
+      clearInterval(interval);
+    }
   };
 
   const clickButtonUp = () => {
+ setTimeout(() => {setBtnClicked(true);}, 500)
     if (methodSorting == "bubble") {
       bubbleSort(true);
     } else {
@@ -149,6 +147,7 @@ export const SortingPage: React.FC = () => {
   };
 
   const clickButtonDown = () => {
+    setBtnClicked(true);
     if (methodSorting == "bubble") {
       bubbleSort(false);
     } else {
