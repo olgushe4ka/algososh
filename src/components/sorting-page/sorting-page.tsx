@@ -14,10 +14,6 @@ export const SortingPage: React.FC = () => {
 
   const [array, setArray] = useState<Array<TArray>>(randomArr);
 
-  const [btnClicked, setBtnClicked] = useState<boolean>(false);
-
-  console.log(btnClicked);
-
   const bubbleSort = (direction: boolean) => {
     let i = 0;
     let j = 0;
@@ -72,15 +68,11 @@ export const SortingPage: React.FC = () => {
           }
         }
       }, 500);
+      document.addEventListener("click", () => clearInterval(interval));
     }, 500);
-    setBtnClicked(false);
-    if (btnClicked) {
-      clearInterval(interval);
-    }
   };
 
   const selectionSort = (direction: boolean) => {
-
     let i = 0;
     let j = i + 1;
 
@@ -130,15 +122,11 @@ export const SortingPage: React.FC = () => {
         }
       }
       setArray(newArr);
+      document.addEventListener("click", () => clearInterval(interval));
     }, 500);
-    setBtnClicked(false);
-    if (btnClicked) {
-      clearInterval(interval);
-    }
   };
 
   const clickButtonUp = () => {
- setTimeout(() => {setBtnClicked(true);}, 500)
     if (methodSorting == "bubble") {
       bubbleSort(true);
     } else {
@@ -147,7 +135,6 @@ export const SortingPage: React.FC = () => {
   };
 
   const clickButtonDown = () => {
-    setBtnClicked(true);
     if (methodSorting == "bubble") {
       bubbleSort(false);
     } else {

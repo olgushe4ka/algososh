@@ -56,8 +56,13 @@ export const StringComponent: React.FC = () => {
         } else {
           clearInterval(interval);
         }
+
+
       }, 1000);
     }
+
+
+
   };
 
   const changeColor = (arr: TArray[], i: number, color: ElementStates) => {

@@ -38,6 +38,8 @@ export const StackPage: React.FC = () => {
     }, 500);
 
     setValueInput("");
+
+   
   };
 
   const clickButtonDel = () => {
