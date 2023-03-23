@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { ElementStates } from "../../types/element-states";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
@@ -60,7 +60,7 @@ export const StringComponent: React.FC = () => {
     }
   };
 
-  const changeColor = (arr: TArray[], i: number, color: ElementStates) => {
+ const changeColor = (arr: TArray[], i: number, color: ElementStates) => {
     arr[i].color = color;
     arr[arr.length - i - 1].color = color;
     const newArr: TArray[] = arr.concat();
