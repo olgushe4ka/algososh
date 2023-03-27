@@ -33,6 +33,8 @@ describe("StringComponent", function () {
       "rgb(127, 224, 81)",
     ];
 
+
+
     const endString = "54321";
     const endChangeColorsArr = [
       "rgb(127, 224, 81)",
