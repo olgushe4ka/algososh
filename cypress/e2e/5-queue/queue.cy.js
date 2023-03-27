@@ -18,7 +18,7 @@ describe("QueueComponent", function () {
   it("should add element to the stack and animates correctly", () => {
     cy.get("input").type("test");
 
-    cy.get('button').contains('Добавить').click();
+    cy.get("button").contains("Добавить").click();
     //cy.contains("Добавить").click();
     cy.get("li div[class*=circlediv]")
       .eq(0)
@@ -38,7 +38,7 @@ describe("QueueComponent", function () {
 
     cy.get("input").type("test");
 
-    cy.get('button').contains('Добавить').click();
+    cy.get("button").contains("Добавить").click();
     cy.get("li div[class*=circlediv]")
       .eq(1)
       .should("have.css", "border-color", defaultColor);
@@ -58,11 +58,11 @@ describe("QueueComponent", function () {
 
   it("deletes element from the stack and animates correctly", () => {
     cy.get("input").type("test");
-    cy.get('button').contains('Добавить').click();
+    cy.get("button").contains("Добавить").click();
     cy.get("input").type("test");
-    cy.get('button').contains('Добавить').click();
+    cy.get("button").contains("Добавить").click();
 
-    cy.get('button').contains('Удалить').click();
+    cy.get("button").contains("Удалить").click();
 
     cy.get("li div[class*=circlediv]")
       .eq(0)
@@ -78,9 +78,9 @@ describe("QueueComponent", function () {
 
   it("clears the stack correctly", () => {
     cy.get("input").type("test");
-    cy.get('button').contains('Добавить').click();
+    cy.get("button").contains("Добавить").click();
     cy.get("input").type("test");
-    cy.get('button').contains('Добавить').click();
+    cy.get("button").contains("Добавить").click();
 
     cy.get("li p[class*=text_type_circle]")
       .eq(0)
@@ -91,7 +91,7 @@ describe("QueueComponent", function () {
 
     cy.get("li").eq(1).should("contain.text", "tail");
 
-    cy.get('button').contains('Очистить').click();
+    cy.get("button").contains("Очистить").click();
 
     cy.get("li p[class*=text_type_circle]").eq(0).should("contain.text", "");
     cy.get("li p[class*=text_type_circle]").eq(1).should("contain.text", "");

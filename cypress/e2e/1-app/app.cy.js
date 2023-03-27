@@ -35,11 +35,4 @@ describe("Routing test", () => {
     cy.get("a[href='/list']").click();
     cy.url().should("include", "/list");
   });
-
-
-
-  
-
-
-
 });

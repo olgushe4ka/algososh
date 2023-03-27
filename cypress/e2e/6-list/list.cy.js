@@ -73,14 +73,11 @@ describe("ListComponent", function () {
     cy.get("li").eq(2).should("contain.text", "tail");
   });
 
-  
   it("deletes element by index correctly", () => {
     cy.get("li p[class*=text_type_circle]").should("have.length", 4);
 
     cy.get('input[placeholder*="Введите индекс"]').type("2");
     cy.get("button").contains("Удалить по индексу").click();
     cy.get("li p[class*=text_type_circle]").should("have.length", 3);
-   
   });
-
 });
