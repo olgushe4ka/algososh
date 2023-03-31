@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { ElementStates } from "../../types/element-states";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
@@ -56,16 +56,11 @@ export const StringComponent: React.FC = () => {
         } else {
           clearInterval(interval);
         }
-
-
       }, 1000);
     }
-
-
-
   };
 
-  const changeColor = (arr: TArray[], i: number, color: ElementStates) => {
+ const changeColor = (arr: TArray[], i: number, color: ElementStates) => {
     arr[i].color = color;
     arr[arr.length - i - 1].color = color;
     const newArr: TArray[] = arr.concat();
@@ -83,7 +78,6 @@ export const StringComponent: React.FC = () => {
 
     setTimeout(() => reverse(arr), 1000);
   };
-  
 
   return (
     <SolutionLayout title="Строка">
