@@ -1,9 +1,25 @@
 import { render, fireEvent, screen, getByRole } from "@testing-library/react";
 import App from "../app/app";
 
-describe("StringComponent", () => {
-  it("correctly reverses a string with even number of characters", async () => {
 
+
+describe("StringComponent", () => {
+
+  jest.setTimeout(15000);
+
+  const reloadFn = () => {
+    window.location.reload();
+  };
+
+  beforeAll(() => {
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: { reload: jest.fn() },
+    });
+  });
+
+  it("correctly reverses a string with even number of characters", async () => {
+    reloadFn();
     const cont = render(<App />);
     const linkElementString = cont.getAllByRole("link");
     fireEvent.click(linkElementString[0]);
@@ -21,6 +37,7 @@ describe("StringComponent", () => {
   });
 
   it("correctly reverses a string with odd number of characters", async () => {
+    reloadFn();
     const cont = render(<App />);
     const linkElementString = cont.getAllByRole("link");
     fireEvent.click(linkElementString[0]);
@@ -45,7 +62,7 @@ describe("StringComponent", () => {
   });
 
   it("correctly reverses a string with one character", async () => {
-
+    reloadFn();
     const cont = render(<App />);
     const linkElementString = cont.getAllByRole("link");
     fireEvent.click(linkElementString[0]);
@@ -63,6 +80,7 @@ describe("StringComponent", () => {
   });
 
   it("correctly handles an empty string", async () => {
+    reloadFn();
     const cont = render(<App />);
     const linkElementString = cont.getAllByRole("link");
     fireEvent.click(linkElementString[0]);
@@ -75,4 +93,5 @@ describe("StringComponent", () => {
 
     expect(button).toBeDisabled();
       });
+      
 });

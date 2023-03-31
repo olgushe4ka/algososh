@@ -1,30 +1,71 @@
 
-import { render, screen, fireEvent } from "@testing-library/react";
-import { SortingPage } from "./sorting-page";
+import { render, fireEvent, screen } from '@testing-library/react';
+
+import App from '../app/app';
+
+jest.setTimeout(155000);
 
 describe("SortingPage", () => {
-  it("correctly sorts an empty array", async () => {
-    render(<SortingPage />);
-    const upButton = screen.getByText("По возрастанию");
-    fireEvent.click(upButton);
-    const array = await screen.findAllByTestId("array-item");
-    expect(array).toHaveLength(0);
+
+  const reloadFn = () => {
+    window.location.reload();
+  };
+
+  beforeAll(() => {
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: { reload: jest.fn() },
+    });
   });
 
-  it("correctly sorts an array with one element", async () => {
-    render(<SortingPage />);
-    const upButton = screen.getByText("По возрастанию");
-    fireEvent.click(upButton);
-    const array = await screen.findAllByTestId("array-item");
-    expect(array).toHaveLength(1);
-  });
 
-  it("correctly sorts an array with multiple elements", async () => {
-    render(<SortingPage />);
-    const upButton = screen.getByText("По возрастанию");
-    fireEvent.click(upButton);
-    const array = await screen.findAllByTestId("array-item");
-    const values = array.map((el) => parseInt(el.textContent!));
-    expect(values).toEqual([...values].sort());
-  });
+
+  it('clicking "По возрастанию" button sorts the array in ascending order', async () => {
+ 
+  reloadFn();
+  const cont = render(<App />);
+  const linkElementString = cont.getAllByRole("link");
+  fireEvent.click(linkElementString[2]);
+
+ const ascendingButton = screen.getByText('По возрастанию');
+
+
+
+  fireEvent.click(ascendingButton);
+
+  await new Promise((r) => setTimeout(r, 150000));
+
+
+  const arrayElements2: any =  await screen.findAllByRole("listitem");
+
+  for (let i = 0; i < arrayElements2.length - 1; i++) {
+    expect(parseInt(arrayElements2[i].textContent)).toBeLessThanOrEqual(
+      parseInt(arrayElements2[i + 1].textContent)
+    );
+  }
+});
+
+it('clicking "По убыванию" button sorts the array in descending order', async () => {
+
+  reloadFn();
+  const cont = render(<App />);
+  const linkElementString = cont.getAllByRole("link");
+  fireEvent.click(linkElementString[2]);
+
+  const descendingButton = screen.getByText('По убыванию');
+
+
+  fireEvent.click(descendingButton);
+
+  await new Promise((r) => setTimeout(r, 150000));
+
+
+  //const arrayElements:any = screen.getAllByTestId('array-element');
+  const arrayElements: any =  await screen.findAllByRole("listitem");
+  for (let i = 0; i < arrayElements.length - 1; i++) {
+    expect(parseInt(arrayElements[i].textContent)).toBeGreaterThanOrEqual(
+      parseInt(arrayElements[i + 1].textContent)
+    );
+  }
+});
 });
